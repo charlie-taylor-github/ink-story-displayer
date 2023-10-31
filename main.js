@@ -1,6 +1,6 @@
 const storyElement = document.getElementById('story');
 const choicesElement = document.getElementById('choices');
-const story = new inkjs.Story(storyContent);
+let story = new inkjs.Story(storyContent);
 
 function updateChoices(choices) {
     choicesElement.innerHTML = '';
@@ -45,6 +45,7 @@ function clearStory() {
 
 function continueStory() {
     if (story.currentTags.includes('CLEAR')) clearStory();
+    if (story.currentTags.includes('RESTART')) story = new inkjs.Story(storyContent);
     updateVariables(story.variablesState);
 
     if (story.canContinue) {
