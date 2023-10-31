@@ -1,5 +1,6 @@
 const storyElement = document.getElementById('story');
 const choicesElement = document.getElementById('choices');
+const story = new inkjs.Story(storyContent);
 
 function updateChoices(choices) {
     choicesElement.innerHTML = '';
@@ -16,7 +17,6 @@ function updateChoices(choices) {
 }
 
 function updateStory(story) {
-    storyElement.innerHTML = '';
     const el = document.createElement('p');
     el.textContent = story;
     el.classList.add('story');
@@ -39,15 +39,12 @@ function makeChoice(choiceIndex) {
     continueStory();
 }
 
-let story;
-fetch('game.json')
-    .then(response => response.json())
-    .then(json => {
-        story = new inkjs.Story(json);
-        continueStory();
-    });
+function clearStory() {
+    storyElement.innerHTML = '';
+}
 
 function continueStory() {
+    if (story.currentTags.includes('CLEAR')) clearStory();
     updateVariables(story.variablesState);
 
     if (story.canContinue) {
@@ -66,3 +63,5 @@ function continueStory() {
         continueStory();
     }
 }
+
+continueStory();
